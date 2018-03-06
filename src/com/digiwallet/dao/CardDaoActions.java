@@ -17,6 +17,6 @@ public interface CardDaoActions
 {
     public String getUserCardDetails(int userID) throws WalletException;
     public String addCardDetails(String userCardData) throws WalletException;
-    public String updateCardDetails(String userCardData) throws WalletException;
-    public String deleteCardDetails(String userCardData) throws WalletException;
+    public String updateCardDetails(Integer id, String userCardData) throws WalletException;
+    public String deleteCardDetails(Integer userId, Integer cardId) throws WalletException;
 }

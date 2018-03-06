@@ -26,11 +26,11 @@ public class User implements Serializable {
 	private String username;
 
 	//bi-directional many-to-one association to Card
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
 	private List<Card> cards;
 
 	//bi-directional many-to-one association to Role
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="roleid")
 	private Role role;
 

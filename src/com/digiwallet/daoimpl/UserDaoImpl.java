@@ -2,11 +2,14 @@ package com.digiwallet.daoimpl;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,18 +24,20 @@ import com.digiwallet.utils.RandomStringGenerator;
 import com.digiwallet.utils.WalletConstants;
 import com.digiwallet.utils.WalletEncryptor;
 import com.digiwallet.utils.WalletLogger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@Stateless
+@Dependent
 public class UserDaoImpl implements UserDaoActions
 {
     WalletLogger logger = new WalletLogger(UserDaoImpl.class);
      WalletEncryptor sha1 = new WalletEncryptor();        
+    
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager entityManager;    
+    
+    @Inject
+    RoleDao roleDao;
 
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional
     private void save(Object obj)
     {
         this.entityManager.persist(obj);
@@ -54,7 +59,7 @@ public class UserDaoImpl implements UserDaoActions
 	logger.logEntering(METHOD_NAME);
         JSONObject responseObject = new JSONObject();
     	try 
-        {
+        {    		
             JSONArray users = new JSONArray();
             List<User> userList = this.entityManager.createNamedQuery("User.findAll").getResultList();
             if(userList.isEmpty())
@@ -109,7 +114,7 @@ public class UserDaoImpl implements UserDaoActions
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional
     public String addUserDetails(String userData) throws WalletException 
     {
         JSONObject responseObject = new JSONObject();
@@ -128,16 +133,15 @@ public class UserDaoImpl implements UserDaoActions
             JSONObject userJSON = new JSONObject(userData);
             User user = new User();
             user.setUsername(userJSON.getString("username"));
-            user.setEmailid(userJSON.getString("emailid"));
-            Role role = new Role();
-            role.setRoleid(2);
-            user.setRole(role);
+            user.setEmailid(userJSON.getString("emailid"));            
+            user.setRole(roleDao.getRole(2));
             RandomStringGenerator stringGenerator = new RandomStringGenerator(WalletConstants.DEFAULT_PASSWORD_LENGTH);
             String password = userJSON.has("password") ? userJSON.getString("password") : stringGenerator.generateString();
             user.setPassword(sha1.getEncryptedString(password, WalletConstants.SHA_ALGORITHM));
-            this.save(user);
+            entityManager.persist(user);
+            entityManager.flush();
             responseObject.put("err",false);
-            responseObject.put("message","succesfully added.");
+            responseObject.put("message","succesfully added user.");
         } 
         catch (JSONException e) 
         {
@@ -156,8 +160,7 @@ public class UserDaoImpl implements UserDaoActions
         return responseObject.toString();
     }
 
-    
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    @Transactional
     public String signUpUser(String userData) throws WalletException 
     {
         final String METHOD_NAME = "getUserToDatabase";
@@ -175,14 +178,13 @@ public class UserDaoImpl implements UserDaoActions
             {
                 User user = new User();
                 user.setUsername(userJSON.getString("username"));
-                user.setEmailid(emailID);
-                Role role = new Role();
-                role.setRoleid(1);
-                user.setRole(role);
+                user.setEmailid(emailID); 
+                user.setRole(roleDao.getRole(1));
                 RandomStringGenerator stringGenerator = new RandomStringGenerator(WalletConstants.DEFAULT_PASSWORD_LENGTH);
                 String password = userJSON.has("password") ? userJSON.getString("password") : stringGenerator.generateString();
                 user.setPassword(sha1.getEncryptedString(password, WalletConstants.SHA_ALGORITHM));
-                this.save(user);
+                entityManager.persist(user);
+                entityManager.flush();
                 responseObject.put("err", false);
                 responseObject.put("message","succesffuly added user");
             }
@@ -206,8 +208,8 @@ public class UserDaoImpl implements UserDaoActions
 
     
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String updateUserDetails(String userData) throws WalletException 
+    @Transactional
+    public String updateUserDetails(Integer userid, String userData) throws WalletException 
     {
         final String METHOD_NAME = "updateUserDetails";
 	logger.logEntering(METHOD_NAME, "userData : " + userData);
@@ -215,22 +217,20 @@ public class UserDaoImpl implements UserDaoActions
         try 
         {
             JSONObject userJSON = new JSONObject(userData);
-            User user = this.entityManager.find(User.class, userJSON.getInt("userid"));
+            User user = this.entityManager.find(User.class, userid);
             if(user == null)
             {
-                throw new WalletException(WalletException.Codes.CODE_USERS_FAILED_TO_UPDATE);
+                throw new WalletException(WalletException.Codes.CODE_NULL_ENTITY);
             }
             else
             {
                 user.setUsername(userJSON.getString("username"));
-                user.setEmailid(userJSON.getString("emailid"));
-                Role role = new Role();
-                role.setRoleid(2);
-                user.setRole(role);
+                user.setEmailid(userJSON.getString("emailid"));                
                 RandomStringGenerator stringGenerator = new RandomStringGenerator(WalletConstants.DEFAULT_PASSWORD_LENGTH);
                 String password = userJSON.has("password") ? userJSON.getString("password") : stringGenerator.generateString();
                 user.setPassword(sha1.getEncryptedString(password, WalletConstants.SHA_ALGORITHM));
-                this.save(user);
+                entityManager.persist(user);
+                entityManager.flush();
                 responseObject.put("err", false);
                 responseObject.put("message","succesffuly updated user");
             }
@@ -254,26 +254,26 @@ public class UserDaoImpl implements UserDaoActions
     
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public String deleteUserDetails(String userData) throws WalletException 
+    @Transactional
+    public String deleteUserDetails(Integer userid) throws WalletException 
     {
         final String METHOD_NAME = "DeteleUserDetails";
-	logger.logEntering(METHOD_NAME, "userData : " + userData);
+        logger.logEntering(METHOD_NAME, "userData : " );
         JSONObject responseObject = new JSONObject();
         
         try 
         {
-            JSONObject userJSON = new JSONObject(userData);
-            User user = this.entityManager.find(User.class, userJSON.getInt("userid"));
+            User user = this.entityManager.find(User.class, userid);
             if(user == null)
             {
                 throw new WalletException(WalletException.Codes.CODE_USERS_FAILED_TO_DELETE);
             }
             else
             {
-                this.delete(user);
+            	
+                entityManager.remove(user);
                 responseObject.put("err", false);
-                responseObject.put("message","succesffuly added user");
+                responseObject.put("message","succesffuly deleted user");
             }
         }
         catch (JSONException e) 
@@ -310,5 +310,45 @@ public class UserDaoImpl implements UserDaoActions
 	    return false;
 	}
     }
+
+	@Override
+	public String getUserDetails(Integer userid) throws WalletException {
+		try {
+			JSONObject responseObject = new JSONObject();
+            User user = this.entityManager.find(User.class, userid);
+            if(user == null)
+            {
+                throw new WalletException(WalletException.Codes.CODE_NULL_ENTITY);
+            }
+            else
+            {
+            	JSONObject userJSON = new JSONObject();
+                userJSON.put("userid", user.getUserid());
+                userJSON.put("username", user.getUsername());
+                userJSON.put("emailid", user.getEmailid());
+                userJSON.put("roleid", user.getRole().getRoleid());
+
+                JSONArray cards = new JSONArray();
+                for(Card card : user.getCards())
+                {
+                    JSONObject cardJSON = new JSONObject();
+                    cardJSON.put("cardid", card.getCardid());
+                    cardJSON.put("userid", card.getUser().getUserid());
+                    cardJSON.put("cardtypeid", card.getCardtype().getCardtypeid());
+                    cardJSON.put("expirydate", card.getExpirydate());
+                    cardJSON.put("cardnumber", card.getCardnumber());
+                    cards.put(cardJSON);
+                }
+                userJSON.put("cards", cards);
+                responseObject.put("err", false);
+                responseObject.put("data", userJSON.toString()); 
+            }
+            return responseObject.toString();
+		} catch(WalletException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new WalletException(WalletException.Codes.CODE_NULL_ENTITY);
+		}
+	}
 }
 

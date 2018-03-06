@@ -1,6 +1,8 @@
 package com.digiwallet.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,18 +20,18 @@ public class Card implements Serializable {
 	@Id
 	private int cardid;
 
-	private int cardnumber;
+	private BigInteger cardnumber;
 
 	@Temporal(TemporalType.DATE)
 	private Date expirydate;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="userid")
 	private User user;
 
 	//bi-directional many-to-one association to Cardtype
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="cardtypeid")
 	private Cardtype cardtype;
 
@@ -44,11 +46,11 @@ public class Card implements Serializable {
 		this.cardid = cardid;
 	}
 
-	public int getCardnumber() {
+	public BigInteger getCardnumber() {
 		return this.cardnumber;
 	}
 
-	public void setCardnumber(int cardnumber) {
+	public void setCardnumber(BigInteger cardnumber) {
 		this.cardnumber = cardnumber;
 	}
 

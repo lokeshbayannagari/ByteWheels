@@ -23,7 +23,7 @@ public class Cardtype implements Serializable {
 	private String cardtype;
 
 	//bi-directional many-to-one association to Card
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cardtype")
+	@OneToMany
 	private List<Card> cards;
 
 	public Cardtype() {
