@@ -41,31 +41,29 @@ public class WalletException extends Exception
         /*** Users******/
         CODE_USERS_DUPLICATE_EMAILID(10012, "Email ID already exists in the system"),
         CODE_USERS_DUPLICATE_EMAILID_IN_CURRENT_ORGANIZATION(10013, "Email ID already exists in the selected organization."),
-        CODE_USERS_PASSWORD_CANNOT_BE_SET_DUPLICATE_EMAILID(10014, "User already exists in other organization(s). Password cannot be set."),
-        CODE_USERS_FAILED_TO_SEND_EMAIL(10015, "Failed to send mail."),
-        CODE_USERS_DUPLICATE_UNIQUEID(10016, "Unique ID already exists. Please choose a different one."),
+        CODE_USERS_FAILED_TO_UPDATE(10014, "Failed to update user."),
+        CODE_USERS_FAILED_TO_DELETE(10014, "Failed to delete user."),
       
-        
-        
+         /*** Cards******/
+         CODE_CARDS_DUPLICATE_EMAILID(10012, "Email ID already exists in the system"),
+        CODE_CARDS_DUPLICATE_EMAILID_IN_CURRENT_ORGANIZATION(10013, "Email ID already exists in the selected organization."),
+        CODE_CARDS_FAILED_TO_UPDATE(10014, "Failed to update card."),
+        CODE_CARDS_FAILED_TO_DELETE(10014, "Failed to delete card."),
         /* Date */
         CODE_UNPARSEABLE_DATE(11000, "Invalid date"),
         
         /**** Captcha ****/
-        CODE_INVALID_CAPTCHA(12000, "Invalid captcha characters entered. Please try again"),
+       
         
         /**** Registration not supported ****/
         CODE_REGISTRATION_NOT_SUPPORTED(13000, "Registration is not supported yet"),
-        CODE_SUBSCRIPTION_NOT_SUPPORTED(14000, "Subscription is not supported yet"),
-        
+    
         /*** ***/
         CODE_ENTITY_DUPLICATE_NAME(15000, "Name already exists! Duplicates are not allowed"),
         
         
         /*** Mail ***/
-        CODE_FAILED_TO_SEND_MAIL(18000, "Unable to send mail due to some error."),
-        
-        /*** oAuth authentication ***/
-        CODE_OAUTH_AUTHENTICATION_FAILED(19000, "Authentication with oAuth server failed.");
+        CODE_FAILED_TO_SEND_MAIL(18000, "Unable to send mail due to some error.");
         
         private final int code;
         private final String internalMessage;
