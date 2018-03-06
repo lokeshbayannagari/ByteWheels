@@ -1,13 +1,9 @@
 package com.digiwallet.utils;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import com.digiwallet.exception.WalletException;
 
 /**
  *
@@ -29,7 +25,7 @@ public class WalletLogger
 //        oLogger.setLevel(getLogLevelFromDB());
     }
     
-    public WalletLogger(Class classClass)
+    public WalletLogger(Class<?> classClass)
     {
         oLogger = Logger.getLogger(classClass);
 //        oLogger.setLevel(getLogLevelFromDB());

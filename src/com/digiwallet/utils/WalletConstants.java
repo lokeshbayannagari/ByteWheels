@@ -6,4 +6,5 @@ public interface WalletConstants {
     int LOG_TYPE_INFO = 2;
     int LOG_TYPE_DEBUG = 1;
     String ENCODING_STANDARD = "UTF-8";
+    int DEFAULT_PASSWORD_LENGTH = 8;
 }
