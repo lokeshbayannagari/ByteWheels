@@ -1,0 +1,106 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23 Dec, 2014, 10:05:18 AM
+    Author     : rakesh
+*/
+
+.og-grid li > a, .og-grid li > a img {
+    border: 0 none;
+    display: block;
+    /*height: 300px;*/
+    height: 250px;
+    width: 300px;
+    outline: 0 none;
+    position: relative;
+}
+
+.og-details p{
+    color: #000;
+}
+
+.og-expander {
+    background: #b1b1b1;
+    width:65%;
+    left:332px;
+}
+
+.og-details a.link-button {
+    background: #d9d9d9;
+    border-radius: 8px;
+    border:none;
+    color: #000 !important;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.og-pointer {
+    border-color: transparent transparent #b1b1b1;
+}
+
+.og-details h3 {
+    color:#000;
+}
+
+.divLoginForm {
+    float:none;
+}
+
+.og-grid li a figure span {
+    text-transform:none;
+}
+
+/*As per the changes in requirements the below elements are hidden. Only the paragraph is shown and the contents displayed inside the paragraph are html contents as 'large html'*/
+
+.og-fullimg{
+    display:none;
+}
+
+.og-details h3{
+    display:none;
+}
+
+.og-details .buttons-list{
+    display:none;
+}
+
+.og-details .elastislide-wrapper{
+    display:none;
+}
+
+.og-details .infosep{
+    display:none;
+}
+
+.wagwep-container{
+    display:none;
+}
+
+/*Styling for the containing div is changed accordingly*/
+
+.og-details{
+    width:100%;
+}
+
+.og-expander{
+    height: 0px !important;
+    width: 0px !important;
+    display: none !important;
+}
+
+og-expanded{
+        height: 0px !important;
+    width: 0px !important;
+    display: none !important;
+    
+}
+
+.all
+{
+/*    height: 0px !important;
+    width: 0px !important;
+    display: none !important;*/
+}

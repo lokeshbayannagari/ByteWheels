@@ -1,0 +1,81 @@
+.bootstrap-table .table:not(.table-condensed),
+.bootstrap-table .table:not(.table-condensed) > tbody > tr > th,
+.bootstrap-table .table:not(.table-condensed) > tfoot > tr > th,
+.bootstrap-table .table:not(.table-condensed) > thead > tr > td,
+.bootstrap-table .table:not(.table-condensed) > tbody > tr > td,
+.bootstrap-table .table:not(.table-condensed) > tfoot > tr > td {
+    padding: 2px 6px 2px 2px;
+    word-wrap: break-word;
+}
+
+.fixed-table-body
+{
+    overflow-x: hidden;
+}
+
+.fixed-table-container tbody .selected td
+{
+    background-color: transparent !important;
+}
+
+.fixed-table-header, .kwizol-grid th
+{
+    background-color: #dbe9ee;
+    color: #055A78;
+}
+
+.kwizol-grid td
+{
+    border-left-color: #EEE !important;
+    border-top-color: #EEE !important;
+}
+
+.kwizol-grid .th-inner
+{
+    font-weight: normal !important;
+}
+
+.kwizol-grid
+{ 
+    table-layout: fixed; 
+    cursor:pointer;
+}
+
+.highlightRow
+{
+    background-color: #EAEFF0;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    color: #055a78;
+    background-color: #dbe9ee;
+    font-weight: bold;
+    border-color: #dbe9ee;
+}
+
+.pagination>li>a, .pagination>li>span {
+    color: #055a78;
+}
+
+.btn-primary {
+    color: black;
+    background-color: #dbe9ee;
+    border-color: #dbe9ee;
+}
+
+
+.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+    padding: 4px;
+    padding-right: 20px;
+    line-height: 20px;
+
+}
+
+.bootstrap-table .table > thead > tr > th
+{
+    vertical-align: middle;
+}
+.fixed-table-pagination .pagination-detail, .fixed-table-pagination div.pagination
+{
+    margin-top: 5px !important;
+}
