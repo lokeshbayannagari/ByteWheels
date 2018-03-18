@@ -31,11 +31,11 @@ body {
       background-color: #f6f6f6;
   }
   .logo-small {
-      color: #f4511e;
+      color: #732d91;
       font-size: 50px;
   }
   .logo {
-      color: #f4511e;
+      color: #732d91;
       font-size: 200px;
   }
   .thumbnail {
@@ -56,7 +56,7 @@ body {
       border-color: #732d91;
   }
   .carousel-indicators li.active {
-      background-color: #f4511e;
+      background-color: #732d91;
   }
   .item h4 {
       font-size: 19px;
@@ -69,7 +69,7 @@ body {
       font-style: normal;
   }
   .panel {
-      border: 1px solid #f4511e; 
+      border: 1px solid #732d91; 
       border-radius:0 !important;
       transition: box-shadow 0.5s;
   }
@@ -190,13 +190,29 @@ body {
   
   .width98
   {
-  	max-width: 98%;
-  	height: 150px;
+  	width: 98%;
+  	height: 160px;
   }
   
-  .imgCarousel
+  .divCarousel
   {
-  	max-height: 500px;
-  	width: 1500px;
+  	height: 400px;
+  	max-width: 1900px;
   	
   }
+  
+  .hideFirst
+  {
+  	display:none;
+  }
+  
+  .menuItems
+  {
+  	margin: 0px 1px;
+  }
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+  background: none;
+  color: #999999;
+  cursor: not-allowed;
+}
